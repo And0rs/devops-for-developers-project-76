@@ -1,0 +1,35 @@
+---
+- name: Install datadog-agent and add http check instance
+  hosts: webservers
+  become: true
+
+  vars:
+    datadog_api_key: "{{ datadog_api_key }}"
+    datadog_site: "{{ datadog_site }}"
+    http_checks:
+      - name: "redmine"
+        url: "http://localhost:3000/"
+
+  tasks:
+    - name: Import the Datadog Agent role from the Datadog collection
+      import_role:
+        name: datadog.dd.agent
+
+    - name: Create http_check config directory
+      ansible.builtin.file:
+        path: /etc/datadog-agent/conf.d/http_check.d
+        state: directory
+        mode: '0755'
+
+    - name: Deploy http_check configuration from template
+      ansible.builtin.template:
+        src: templates/datadog.config.j2
+        dest: /etc/datadog-agent/conf.d/http_check.d/conf.yaml
+        mode: '0644'
+
+    - name: Restart Datadog Agent
+      ansible.builtin.systemd:
+        name: datadog-agent
+        state: restarted
+        enabled: true
+      when: ansible_service_mgr == 'systemd'
