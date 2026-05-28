@@ -4,8 +4,6 @@
   become: true
 
   vars:
-    datadog_api_key: "{{ datadog_api_key }}"
-    datadog_site: "{{ datadog_site }}"
     http_checks:
       - name: "redmine"
         url: "http://localhost:3000/"

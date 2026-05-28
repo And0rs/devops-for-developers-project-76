@@ -23,6 +23,11 @@ make remote-install
 make deploy
 ```
 
+Установить мониторинг Datadog:
+```
+make install-datadog
+```
+
 ## Ссылка
 
 Приложение доступно по адресу (когда запущены VMs): [https://cacao.sknt.ru](https://cacao.sknt.ru)
