@@ -25,4 +25,4 @@ make deploy
 
 ## Ссылка
 
-Приложение доступно по адресу: [https://cacao.sknt.ru](https://cacao.sknt.ru)
+Приложение доступно по адресу (когда запущены VMs): [https://cacao.sknt.ru](https://cacao.sknt.ru)
