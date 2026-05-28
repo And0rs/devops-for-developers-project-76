@@ -6,3 +6,6 @@ remote-install:
 
 install-roles:
 	ansible-galaxy install -r requirements.yml
+
+deploy:
+	ansible-playbook deploy_redmine.yml -i inventory.ini -v --vault-password-file vault_pass

@@ -1,0 +1,9 @@
+ansible_python_interpreter: /usr/bin/python3
+redmine_port: 3000
+
+redmine_vars:
+  REDMINE_DB_POSTGRES: 192.168.1.158
+  REDMINE_DB_PORT: 5432
+  REDMINE_DB_DATABASE: redmine
+  REDMINE_DB_USERNAME: "{{ vault_postgres_user }}"
+  REDMINE_DB_PASSWORD: "{{ vault_postgres_password }}"

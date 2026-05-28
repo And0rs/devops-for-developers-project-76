@@ -1,0 +1,36 @@
+---
+- name: Deploy Redmine app
+  hosts: all
+  become: false
+  gather_facts: false
+
+  vars:
+    rm_env_file_path: "/tmp/redmine.env"
+
+  tasks:
+    - name: Create Docker network
+      ansible.builtin.shell:
+        cmd: docker network inspect redmine_network >/dev/null 2>&1 || docker network create redmine_network
+      changed_when: false
+
+    - name: Generate Redmine .env file
+      ansible.builtin.template:
+        src: templates/redmine.env.j2
+        dest: "{{ rm_env_file_path }}"
+        mode: '0644'
+
+    - name: Start Redmine container
+      ansible.builtin.shell:
+        cmd: >
+          docker rm -f redmine_container 2>/dev/null;
+          docker run -d
+          --name redmine_container
+          --network redmine_network
+          --env-file {{ rm_env_file_path }}
+          -p {{ redmine_port }}:{{ redmine_port }}
+          redmine:latest
+
+    - name: Remove .env file
+      ansible.builtin.file:
+        path: "{{ rm_env_file_path }}"
+        state: absent
